@@ -5,10 +5,10 @@ import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
 
-st.set_page_config(page_title="Widgets Demo", page_icon="🎛️", layout="wide")
+st.set_page_config(page_title="Sirki Multi turn chat", page_icon="🎛️", layout="wide")
 
 # --- sidebar controls ---
-st.sidebar.title("Controls")
+st.sidebar.title("Sirki Controls")
 st.sidebar.write("My name is Pradeep Sirki, I love building AI apps.")
 
 # Session state example: a simple visit counter

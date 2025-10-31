@@ -47,26 +47,44 @@ if "chat" not in st.session_state:
     st.session_state.chat = None
 
 # Cache the model to avoid recreating it
+# @st.cache_resource(show_spinner=False)
+# def get_model(api_key, model_name, system_instruction):
+#     if genai is None:
+#         raise ImportError("google-generativeai is not installed")
+#     if not api_key:
+#         raise ValueError("API key missing")
+    
+#     genai.configure(api_key=api_key)
+#     return genai.GenerativeModel(model_name, system_instruction=system_instruction)
+
+# helpers
+
 @st.cache_resource(show_spinner=False)
-def get_model(api_key, model_name, system_instruction):
+def get_model(api_key: str, modlename: str, system_instruction: str):
     if genai is None:
         raise ImportError("google-generativeai is not installed")
     if not api_key:
         raise ValueError("API key missing")
-    
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel(model_name, system_instruction=system_instruction)
-
+    return genai.GenerativeModel(modlename, system_instruction=system_instruction)
 # Main app
 st.title("Gemini Multi Turn Chat")
 
+def ensure_state():
 # Display chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages: List[Dict[str, str]] = []
+    if "chat" not in st.session_state:
+        st.session_state.chat = None
+ensure_state()
+
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
 # Chat input
-user_prompt = st.chat_input("Ask something...")
+user_prompt = st.chat_input("Ask something...",key="chat_input")
 
 # Process user input
 if user_prompt:
